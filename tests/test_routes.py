@@ -122,7 +122,11 @@ class TestAccountService(TestCase):
         """It should not Create an Account when sending the wrong data"""
         response = self.client.post(BASE_URL, json={"name": "not enough data"})
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-
+    
+    def test_get_account_not_found(self):
+        """It should not Read an Account that is not found"""
+        resp = self.client.get(f"{BASE_URL}/0")
+        self.assertEqual(resp.status_code, status.HTTP_404_NOT_FOUND)
     def test_unsupported_media_type(self):
         """It should not Create an Account when sending the wrong media type"""
         account = AccountFactory()
